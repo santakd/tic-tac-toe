@@ -70,6 +70,12 @@ Game reset confirmations
 🔄 Reset operations
 👋 Exit events
 
+7. Key Metrics Tracked:
+⏱️ Total game duration (from start to end)
+📊 Move statistics (total moves, AI-only moves)
+🔍 AI performance (per-move timing, average/min/max times)
+🧮 Algorithm performance (nodes evaluated, average per move)
+
 The game initializes with a mode selection menu, followed by difficulty selection,
 and then proceeds to the active game state where players/AIs take turns making moves.
 
@@ -145,6 +151,14 @@ class TicTacToe:
         self.game_over = False  # Flag to track if game has ended
         self.winner = None  # Stores the winner if game is won
         self.node_count = 0  # Tracks nodes evaluated in minimax for performance metrics
+        
+        # Performance metrics for the game session
+        self.game_start_time = None  # Timestamp when game mode starts
+        self.game_end_time = None  # Timestamp when game ends
+        self.total_moves = 0  # Total moves made in current game
+        self.ai_move_times = []  # List of AI move computation times
+        self.total_nodes_evaluated = 0  # Total nodes evaluated across all AI moves
+        self.move_count = 0  # Counter for current game moves
         
         # Pygame display setup
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -459,6 +473,11 @@ class TicTacToe:
 
         # Calculate and log performance metrics
         time_taken = time.time() - start_time
+        
+        # Track performance metrics for the session
+        self.ai_move_times.append(time_taken)
+        self.total_nodes_evaluated += self.node_count
+        
         logging.info(f"⏱️  Computation time: {time_taken:.4f}s | Nodes evaluated: {self.node_count}")
         logging.info(f"✅ Final decision: Move {best_move} with score {best_score}")
         logging.info(f"{'='*60}\n")
@@ -472,6 +491,23 @@ class TicTacToe:
 
     def reset_game(self):
         """Reset the game board and prepare for a new game."""
+        # Log game statistics before reset
+        if self.game_end_time and self.game_start_time:
+            total_game_time = self.game_end_time - self.game_start_time
+            logging.info(f"\n{'='*60}")
+            logging.info(f"📊 GAME SESSION STATISTICS")
+            logging.info(f"Total game time: {total_game_time:.2f}s")
+            logging.info(f"Total moves: {self.move_count}")
+            logging.info(f"Total AI moves: {len(self.ai_move_times)}")
+            if self.ai_move_times:
+                logging.info(f"Average AI move time: {sum(self.ai_move_times) / len(self.ai_move_times):.4f}s")
+                logging.info(f"Max AI move time: {max(self.ai_move_times):.4f}s")
+                logging.info(f"Min AI move time: {min(self.ai_move_times):.4f}s")
+            logging.info(f"Total nodes evaluated: {self.total_nodes_evaluated}")
+            if len(self.ai_move_times) > 0:
+                logging.info(f"Average nodes per move: {self.total_nodes_evaluated / len(self.ai_move_times):.0f}")
+            logging.info(f"{'='*60}\n")
+        
         # Clear the board and reset all cells to empty
         self.board = [[' ' for _ in range(BOARD_COLS)] for _ in range(BOARD_ROWS)]
         
@@ -481,6 +517,14 @@ class TicTacToe:
         self.draw_board_lines()
         self.game_over = False
         self.winner = None
+        
+        # Reset performance metrics for new game
+        self.move_count = 0
+        self.ai_move_times = []
+        self.total_nodes_evaluated = 0
+        self.game_start_time = time.time()  # Start timer for new game
+        self.game_end_time = None
+        
         logging.info(f"🔄 Game reset - Ready for new game")
 
     def run(self):
@@ -521,16 +565,31 @@ class TicTacToe:
                         if self.easy_rect.collidepoint(mouse_pos):
                             self.difficulty = DIFFICULTY_EASY
                             self.state = 'game'
+                            # Initialize performance tracking for new game
+                            self.game_start_time = time.time()
+                            self.move_count = 0
+                            self.ai_move_times = []
+                            self.total_nodes_evaluated = 0
                             logging.info(f"⚙️  Difficulty set: {self.difficulty.upper()}")
                             logging.info(f"🏁 Starting game - Mode: {self.mode} | Difficulty: {self.difficulty}")
                         elif self.medium_rect.collidepoint(mouse_pos):
                             self.difficulty = DIFFICULTY_MEDIUM
                             self.state = 'game'
+                            # Initialize performance tracking for new game
+                            self.game_start_time = time.time()
+                            self.move_count = 0
+                            self.ai_move_times = []
+                            self.total_nodes_evaluated = 0
                             logging.info(f"⚙️  Difficulty set: {self.difficulty.upper()}")
                             logging.info(f"🏁 Starting game - Mode: {self.mode} | Difficulty: {self.difficulty}")
                         elif self.hard_rect.collidepoint(mouse_pos):
                             self.difficulty = DIFFICULTY_HARD
                             self.state = 'game'
+                            # Initialize performance tracking for new game
+                            self.game_start_time = time.time()
+                            self.move_count = 0
+                            self.ai_move_times = []
+                            self.total_nodes_evaluated = 0
                             logging.info(f"⚙️  Difficulty set: {self.difficulty.upper()}")
                             logging.info(f"🏁 Starting game - Mode: {self.mode} | Difficulty: {self.difficulty}")
                 
@@ -552,13 +611,16 @@ class TicTacToe:
                                 row = mouse_y // SQUARE_SIZE
                                 logging.debug(f"Human clicked at pixel ({mouse_x}, {mouse_y}) → Board position ({row}, {col})")
                                 if self.make_move(row, col, PLAYER_X):
+                                    self.move_count += 1  # Increment move counter
                                     self.draw_symbols()
                                     if self.check_win(PLAYER_X):
                                         self.winner = PLAYER_X
                                         self.game_over = True
+                                        self.game_end_time = time.time()  # Record game end time
                                         logging.info("🎉 HUMAN WINS! Congratulations!")
                                     elif self.check_draw():
                                         self.game_over = True
+                                        self.game_end_time = time.time()  # Record game end time
                                         logging.info("🤝 DRAW! Game ended in a tie.")
                                     else:
                                         self.current_player = PLAYER_O
@@ -570,17 +632,20 @@ class TicTacToe:
                 row, col = self.get_best_move()
                 if row is not None and col is not None:
                     self.make_move(row, col, self.current_player)
+                    self.move_count += 1  # Increment move counter
                     self.draw_symbols()
                     
                     # Check win condition
                     if self.check_win(self.current_player):
                         self.winner = self.current_player
                         self.game_over = True
+                        self.game_end_time = time.time()  # Record game end time
                         logging.info(f"🤖 AI ({self.current_player}) WINS!")
                     
                     # Check draw condition
                     elif self.check_draw():
                         self.game_over = True
+                        self.game_end_time = time.time()  # Record game end time
                         logging.info("🤝 DRAW! Game ended in a tie.")
                     
                     # Switch to next player
