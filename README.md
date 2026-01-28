@@ -20,7 +20,7 @@ Run the game locally to see the Pygame window and menu. You can capture screensh
 
 ## Requirements
 
-- Python 3.8+
+- 🐍 Python 3.8+
 - pygame
 
 Install dependencies with pip:
