@@ -10,7 +10,7 @@ Game Modes:
 Difficulty Levels:
     - Easy: AI checks for immediate wins, blocks opponent wins, otherwise plays randomly
     - Medium: Uses minimax algorithm with alpha-beta pruning, depth limit 4 (optimized for 4x4 board)
-    - Hard: Uses minimax algorithm with alpha-beta pruning, depth limit 6 (stronger AI, reasonable computation time)
+    - Hard: Uses minimax algorithm with alpha-beta pruning, depth limit 6 (stronger AI, reasonable computation time), unlimited can have performance issues
 
 Features:
     - Interactive menu system for mode and difficulty selection
