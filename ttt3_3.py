@@ -1,5 +1,5 @@
 '''
-3x3 Tic-Tac-Toe Game with AI Opponents, 3 in a Row Win Condition
+Standard 3x3 Tic-Tac-Toe Game with AI Opponents, 3 in a Row Win Condition
 
 A Pygame-based implementation of Tic-Tac-Toe with multiple game modes and AI difficulty levels.
 
