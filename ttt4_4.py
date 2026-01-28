@@ -1,5 +1,5 @@
 '''
-4x4 Tic-Tac-Toe Game with AI Opponents, 4 in a Row Win Condition
+Advanced 4x4 Tic-Tac-Toe Game with AI Opponents, 4 in a Row Win Condition
 
 A Pygame-based implementation of 4x4 Tic-Tac-Toe with multiple game modes and AI difficulty levels.
 
