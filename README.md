@@ -1,88 +1,120 @@
-Tic-Tac-Toe Game with AI Opponents
+# Tic-Tac-Toe — Game Variations (Pygame + AI)
 
-A Pygame-based implementation of Tic-Tac-Toe with multiple game modes and AI difficulty levels.
+Tic-Tac-Toe Game Variations is a Pygame-based collection of Tic-Tac-Toe implementations with multiple board sizes, game modes, and AI difficulty levels. The project is focused on exploring different rulesets and AI techniques (random, heuristic checks, and minimax with alpha–beta pruning).
 
-Variations:
+## Features
 
-1. Standard 3x3, 3 in a row wins
-2. Advanced 4x4, 4 in a row wins
-3. Advanced 4x4, 3 in a row wins
-   
-Game Modes:
-    - Human vs AI: Player (X) competes against the computer (O)
-    - AI vs AI: Two AI opponents play against each other
+- Multiple board/win-size variations (standard 3x3 and advanced 4x4 variants).
+- Game modes: Human vs AI and AI vs AI.
+- AI difficulty levels:
+  - Easy — immediate win/block checks, otherwise random.
+  - Medium — minimax with alpha–beta pruning limited to a search depth (configurable).
+  - Hard — full minimax with alpha–beta pruning (no depth limit).
+- Interactive menu and real-time board visualization using Pygame.
+- Performance logging: node counts, computation times, and evaluated move rankings.
+- Configurable AI vs AI move delay and comprehensive logging to aid debugging.
 
-Difficulty Levels:
-    - Easy: AI checks for immediate wins, blocks opponent wins, otherwise plays randomly
-    - Medium: Uses minimax algorithm with alpha-beta pruning, limited to depth 5
-    - Hard: Uses full minimax algorithm with alpha-beta pruning, unlimited depth
+## Demo / Screenshot
 
-Features:
-    - Interactive menu system for mode and difficulty selection
-    - Real-time board visualization using Pygame
-    - Minimax algorithm with alpha-beta pruning for optimal AI moves
-    - Performance metrics (node count and computation time logging)
-    - Game state management (menu, difficulty selection, active game, game over)
-    - Configurable AI vs AI move delay
-    - Comprehensive logging for debugging and performance analysis
+Run the game locally to see the Pygame window and menu. You can capture screenshots or GIFs from your session and add them here.
 
-Constants:
-    - BOARD_SIZE: 3x3 grid
-    - WIDTH, HEIGHT: 360x360 pixel window
-    - Player symbols: X (human/AI1) and O (AI/AI2)
-    - Color scheme for board, symbols, buttons, and UI elements
+## Requirements
 
-Logging Features
-1. Move Validation & Execution
-✓/✗ indicators for successful/failed moves
-Position coordinates in logs
+- Python 3.8+
+- pygame
 
-2. Minimax Algorithm
-Depth limit reached notifications
-Terminal state detection (WIN/LOSS/DRAW)
-Pruning triggers with alpha/beta values
-Move evaluation scores at each level
-Best move tracking
+Install dependencies with pip:
 
-3. Easy AI Strategy
-Priority level indicators (🎯 WINNING, 🛡️ BLOCKING, 🎲 RANDOM)
-Available cell count
-Selected move details
+```bash
+pip install pygame
+# or, if you have a requirements.txt:
+# pip install -r requirements.txt
+```
 
-4. Best Move Calculation
-🤖 AI move calculation start/end markers
-Player, difficulty, and mode info
-Depth limit notifications
-Top 3 evaluated moves ranked by score
-Performance metrics (time, nodes evaluated)
-Comprehensive separation lines for clarity
+## Running the game
 
-5. Game State Management
-Game loop initialization
-Mode selection (HUMAN vs AI / AI vs AI)
-Difficulty selection
-Game start notifications
-Win/Draw/Tie outcomes with emojis
-Turn notifications (waiting for moves)
-Game reset confirmations
+From the repository root run:
 
-6. Visual Indicators
-🎮 Game start
-🤖 AI calculations
-📊 Algorithm details
-🎉 Game outcomes
-⏳ Waiting states
-🔄 Reset operations
-👋 Exit events
+```bash
+python main.py
+# or
+python3 main.py
+```
 
-The game initializes with a mode selection menu, followed by difficulty selection,
-and then proceeds to the active game state where players/AIs take turns making moves.
+If your entry point is in a different file or folder (for example `src/main.py`), run that file instead.
 
-Easy Difficulty: Previously, it was purely random moves. 
-Now, the AI first checks for an immediate winning move (if placing its mark wins the game). 
-If not, it checks for an immediate block (if the opponent would win on their next move, it blocks that spot). 
-If neither, it picks a random empty cell. This makes the easy AI smarter without being unbeatable, 
-as it won't miss obvious wins or losses.
-Medium Difficulty:  it used minimax with a depth limit of 4, allowing the AI to look further ahead in the game tree. 
-This makes it harder as it can plan more moves in advance, but still not as perfect as hard mode (full depth).
+## How to play
 
+- Use the menu to choose the game mode (Human vs AI or AI vs AI) and difficulty.
+- For human play, click on an empty cell to place your mark (X by default).
+- The game shows win/draw outcomes and allows resetting or exiting.
+
+Controls may vary depending on how the Pygame UI is implemented — typically mouse clicks are used to select cells and buttons.
+
+## AI Details
+
+- Easy: Checks for any immediate winning move for itself, then checks for moves that block the opponent's immediate win, otherwise selects a random available cell. This avoids obvious blunders while remaining beatable.
+
+- Medium: Uses minimax with alpha–beta pruning but with a configurable depth limit (the previous README noted depth=4 or 5). Depth limits reduce computation and make the AI less than perfect.
+
+- Hard: Uses full minimax with alpha–beta pruning and no depth limit (searches to terminal states), which produces optimal play for smaller boards.
+
+## Logging & Debugging
+
+The project logs information useful for debugging and performance analysis, including:
+- Move validation and coordinates
+- Minimax depth notifications, pruning events, and evaluation scores
+- Node counts and computation times for AI decisions
+- Ranked best moves (top evaluated moves)
+
+These logs can be toggled or redirected to a file for offline analysis.
+
+## Project structure (example)
+
+Adjust these paths to match the repository layout.
+
+```
+README.md
+main.py               # Game entry point
+requirements.txt      # Optional: dependencies
+/game                  # Game logic and modules
+/game/ai.py            # AI implementations (easy, minimax, etc.)
+/game/ui.py            # Pygame UI code
+/game/utils.py         # Helpers and logging
+```
+
+## Contributing
+
+Contributions are welcome. Suggested workflow:
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/your-feature`.
+3. Make changes and add tests where appropriate.
+4. Open a pull request describing your changes.
+
+Please include descriptive commit messages and keep changes focused.
+
+## Tests
+
+If you add unit tests, include instructions to run them here (for example, using pytest):
+
+```bash
+pip install pytest
+pytest
+```
+
+## Future improvements / TODO
+
+- Add a simple GUI menu system if not already present or polish existing UI.
+- Add configurable board sizes and rule variations in the menu.
+- Add more AI strategies (Monte Carlo Tree Search, Reinforcement Learning agents).
+- Add persistence for game statistics and leaderboards.
+- Add unit tests and continuous integration (GitHub Actions).
+
+## License
+
+No license is specified in this repository. If you want to make this project open source, add a LICENSE file (MIT is a common choice).
+
+## Contact
+
+If you have questions or suggestions, open an issue or submit a pull request. Mention @santakd for visibility.
