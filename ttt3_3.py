@@ -10,7 +10,7 @@ Game Modes:
 Difficulty Levels:
     - Easy: AI checks for immediate wins, blocks opponent wins, otherwise plays randomly
     - Medium: Uses minimax algorithm with alpha-beta pruning, limited to depth 5
-    - Hard: Uses full minimax algorithm with alpha-beta pruning, unlimited depth
+    - Hard: Uses full minimax algorithm with alpha-beta pruning, unlimited depth search
 
 Features:
     - Interactive menu system for mode and difficulty selection
