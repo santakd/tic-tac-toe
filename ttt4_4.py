@@ -71,6 +71,12 @@ Game reset confirmations
 🔄 Reset operations
 👋 Exit events
 
+7. Key Metrics Tracked:
+⏱️ Total game duration (from start to end)
+📊 Move statistics (total moves, AI-only moves)
+🔍 AI performance (per-move timing, average/min/max times)
+🧮 Algorithm performance (nodes evaluated, average per move)
+
 The game initializes with a mode selection menu, followed by difficulty selection,
 and then proceeds to the active game state where players/AIs take turns making moves.
 
@@ -174,6 +180,13 @@ class TicTacToe:
         self.game_over = False  # Flag to track if game has ended
         self.winner = None  # Stores the winner if game is won
         self.node_count = 0  # Tracks nodes evaluated in minimax for performance metrics
+        
+        # Performance metrics for game session tracking
+        self.game_start_time = None  # Time when game starts
+        self.game_end_time = None  # Time when game ends
+        self.move_count = 0  # Total moves made in the game
+        self.ai_move_times = []  # List of times for each AI move
+        self.total_nodes_evaluated = 0  # Total nodes evaluated across all AI moves
         
         # Pygame display setup
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -514,6 +527,29 @@ class TicTacToe:
 
     def reset_game(self):
         """Reset the game board and prepare for a new game."""
+        # Log game session statistics before reset
+        if self.game_start_time is not None and self.game_end_time is not None:
+            game_time = self.game_end_time - self.game_start_time
+            logging.info(f"\n{'='*60}")
+            logging.info(f"📊 GAME SESSION STATISTICS")
+            logging.info(f"{'='*60}")
+            logging.info(f"⏱️  Total game time: {game_time:.2f} seconds")
+            logging.info(f"🎮 Total moves made: {self.move_count}")
+            
+            if self.ai_move_times:
+                avg_time = sum(self.ai_move_times) / len(self.ai_move_times)
+                min_time = min(self.ai_move_times)
+                max_time = max(self.ai_move_times)
+                logging.info(f"🤖 AI move times:")
+                logging.info(f"   - Average: {avg_time:.4f}s")
+                logging.info(f"   - Min: {min_time:.4f}s")
+                logging.info(f"   - Max: {max_time:.4f}s")
+            
+            if self.total_nodes_evaluated > 0:
+                logging.info(f"🔢 Total nodes evaluated by minimax: {self.total_nodes_evaluated}")
+            
+            logging.info(f"{'='*60}\n")
+        
         # Clear the board and reset all cells to empty
         self.board = [[' ' for _ in range(BOARD_COLS)] for _ in range(BOARD_ROWS)]
         
@@ -563,16 +599,31 @@ class TicTacToe:
                         if self.easy_rect.collidepoint(mouse_pos):
                             self.difficulty = DIFFICULTY_EASY
                             self.state = 'game'
+                            # Initialize performance tracking for new game
+                            self.game_start_time = time.time()
+                            self.move_count = 0
+                            self.ai_move_times = []
+                            self.total_nodes_evaluated = 0
                             logging.info(f"⚙️  Difficulty set: {self.difficulty.upper()}")
                             logging.info(f"🏁 Starting game - Mode: {self.mode} | Difficulty: {self.difficulty}")
                         elif self.medium_rect.collidepoint(mouse_pos):
                             self.difficulty = DIFFICULTY_MEDIUM
                             self.state = 'game'
+                            # Initialize performance tracking for new game
+                            self.game_start_time = time.time()
+                            self.move_count = 0
+                            self.ai_move_times = []
+                            self.total_nodes_evaluated = 0
                             logging.info(f"⚙️  Difficulty set: {self.difficulty.upper()}")
                             logging.info(f"🏁 Starting game - Mode: {self.mode} | Difficulty: {self.difficulty}")
                         elif self.hard_rect.collidepoint(mouse_pos):
                             self.difficulty = DIFFICULTY_HARD
                             self.state = 'game'
+                            # Initialize performance tracking for new game
+                            self.game_start_time = time.time()
+                            self.move_count = 0
+                            self.ai_move_times = []
+                            self.total_nodes_evaluated = 0
                             logging.info(f"⚙️  Difficulty set: {self.difficulty.upper()}")
                             logging.info(f"🏁 Starting game - Mode: {self.mode} | Difficulty: {self.difficulty}")
                 
@@ -594,13 +645,16 @@ class TicTacToe:
                                 row = mouse_y // SQUARE_SIZE
                                 logging.debug(f"Human clicked at pixel ({mouse_x}, {mouse_y}) → Board position ({row}, {col})")
                                 if self.make_move(row, col, PLAYER_X):
+                                    self.move_count += 1  # Track human move
                                     self.draw_symbols()
                                     if self.check_win(PLAYER_X):
                                         self.winner = PLAYER_X
                                         self.game_over = True
+                                        self.game_end_time = time.time()  # Record game end time
                                         logging.info("🎉 HUMAN WINS! Congratulations!")
                                     elif self.check_draw():
                                         self.game_over = True
+                                        self.game_end_time = time.time()  # Record game end time
                                         logging.info("🤝 DRAW! Game ended in a tie.")
                                     else:
                                         self.current_player = PLAYER_O
@@ -609,20 +663,28 @@ class TicTacToe:
             # Handle AI move if it's AI's turn
             if self.state == 'game' and not self.game_over and (self.mode == 'ai_vs_ai' or (self.mode == 'human_vs_ai' and self.current_player == PLAYER_O)):
                 # Get AI's best move
+                ai_move_start = time.time()
                 row, col = self.get_best_move()
+                ai_move_time = time.time() - ai_move_start
+                self.ai_move_times.append(ai_move_time)
+                self.total_nodes_evaluated += self.node_count
+                
                 if row is not None and col is not None:
                     self.make_move(row, col, self.current_player)
+                    self.move_count += 1  # Track AI move
                     self.draw_symbols()
                     
                     # Check win condition
                     if self.check_win(self.current_player):
                         self.winner = self.current_player
                         self.game_over = True
+                        self.game_end_time = time.time()  # Record game end time
                         logging.info(f"🤖 AI ({self.current_player}) WINS!")
                     
                     # Check draw condition
                     elif self.check_draw():
                         self.game_over = True
+                        self.game_end_time = time.time()  # Record game end time
                         logging.info("🤝 DRAW! Game ended in a tie.")
                     
                     # Switch to next player
