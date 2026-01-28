@@ -3,9 +3,17 @@
 🎉 Welcome to Tic-Tac-Toe! 🎉
   
 Where Xs and Os battle it out for ultimate grid glory. Will you outsmart your opponent with a sneaky diagonal, or will this end in the most dramatic draw of all time? 🤔
-Grab a square, make your move, and let the mind games begin—three in a row has never felt so powerful.
+
+A deceptively simple game where tiny symbols carry big ambitions. This is the arena where Xs and Os clash, strategies are born in seconds, and friendships are briefly tested. 😄
+
+Grab a square, make your move, and let the mind games begin—three in a row or four in a row in the 4x4 board has never felt so powerful.
+
+Will you strike fast with a bold opening move, carefully set a trap with sneaky foresight, or heroically force a draw at the last possible moment? Every square matters. Every move counts. One wrong tap… and it’s game over.
+
+So take a breath, claim your symbol, and step onto the grid. Outsmart your opponent, line up those three magic marks, and prove once and for all that you are the undisputed Tic-Tac-Toe champion. Let the battle of wits begin! 
 
 Tic-Tac-Toe Game Variations is a Pygame-based collection of Tic-Tac-Toe implementations with multiple board sizes, game modes, and AI difficulty levels.
+
 The project is focused on exploring different rulesets and AI techniques (random, heuristic checks, and minimax with alpha–beta pruning).
 
 ## Features
