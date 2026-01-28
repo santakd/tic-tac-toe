@@ -36,9 +36,9 @@ pip install pygame
 From the repository root run:
 
 ```bash
-python main.py
+python <file>.py
 # or
-python3 main.py
+python3 <file>.py
 ```
 
 If your entry point is in a different file or folder (for example `src/main.py`), run that file instead.
@@ -68,20 +68,6 @@ The project logs information useful for debugging and performance analysis, incl
 - Ranked best moves (top evaluated moves)
 
 These logs can be toggled or redirected to a file for offline analysis.
-
-## Project structure (example)
-
-Adjust these paths to match the repository layout.
-
-```
-README.md
-main.py               # Game entry point
-requirements.txt      # Optional: dependencies
-/game                  # Game logic and modules
-/game/ai.py            # AI implementations (easy, minimax, etc.)
-/game/ui.py            # Pygame UI code
-/game/utils.py         # Helpers and logging
-```
 
 ## Contributing
 
