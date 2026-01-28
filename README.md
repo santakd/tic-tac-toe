@@ -99,7 +99,7 @@ pytest
 
 ## License
 
-No license is specified in this repository. If you want to make this project open source, add a LICENSE file (MIT is a common choice).
+MIT License.
 
 ## Contact
 
