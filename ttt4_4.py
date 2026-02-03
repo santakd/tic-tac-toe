@@ -1,15 +1,11 @@
+#   __.-._
+#   '-._"7'
+#    /'.-c
+#    |  //
+#   _)_/||
+# ttt4_4.py
+
 '''
-# Author: santakd
-# Contact: santakd at gmail dot com
-# Date: February 01, 2026
-# Version: 1.0.8
-# License: MIT License
-
-# Description: 
-# This program is to emulate Tic Tac Toe game with AI opponent using Minimax algorithm.
-# The AI is designed to play optimally, ensuring a challenging experience for the player.
-# The game is played on a 4x4 grid, where the player uses 'X' and the AI uses 'O'.
-
 Advanced 4x4 Tic-Tac-Toe Game with AI Opponents, 4 in a Row Win Condition
 
 A Pygame-based implementation of 4x4 Tic-Tac-Toe with multiple game modes and AI difficulty levels.
@@ -762,6 +758,10 @@ class TicTacToe:
                 hard_text = self.button_font.render("Hard", True, BUTTON_TEXT_COLOR)
                 self.screen.blit(hard_text, (self.hard_rect.x + (self.hard_rect.width - hard_text.get_width()) // 2,
                                              self.hard_rect.y + (self.hard_rect.height - hard_text.get_height()) // 2))
+            
+            elif self.state == 'intro':
+                # Draw the fun intro screen
+                self.draw_intro()
             
             elif self.state == 'game':
                 # Draw the game board and symbols

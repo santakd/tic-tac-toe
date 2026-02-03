@@ -1,15 +1,11 @@
+#   __.-._
+#   '-._"7'
+#    /'.-c
+#    |  //
+#   _)_/||
+# ttt3_3.py
+
 '''
-# Author: santakd
-# Contact: santakd at gmail dot com
-# Date: February 01, 2026
-# Version: 1.0.8
-# License: MIT License
-
-# Description: 
-# This program is to emulate Tic Tac Toe game with AI opponent using Minimax algorithm.
-# The AI is designed to play optimally, ensuring a challenging experience for the player.
-# The game is played on a 3x3 grid, where the player uses 'X' and the AI uses 'O'.
-
 Standard 3x3 Tic-Tac-Toe Game with AI Opponents, 3 in a Row Win Condition
 
 A Pygame-based implementation of Tic-Tac-Toe with multiple game modes and AI difficulty levels.
