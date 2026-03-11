@@ -1,9 +1,9 @@
 # Tic-Tac-Toe — Game Variations (Pygame + AI)
 
 🎉 Welcome to Tic-Tac-Toe! 🎉
-  
+   
 Where Xs and Os battle it out for ultimate grid glory. Will you outsmart your opponent with a sneaky diagonal, or will this end in the most dramatic draw of all time? 🤔
-
+ 
 A deceptively simple game where tiny symbols carry big ambitions. This is the arena where Xs and Os clash, strategies are born in seconds, and friendships are briefly tested. 😄
 
 Grab a square, make your move, and let the mind games begin—three in a row or four in a row in the 4x4 board has never felt so powerful.
@@ -86,7 +86,6 @@ These logs can be toggled or redirected to a file for offline analysis.
 ## Contributing
 
 Contributions are welcome. Suggested workflow:
-
 1. Fork the repository.
 2. Create a feature branch: `git checkout -b feature/your-feature`.
 3. Make changes and add tests where appropriate.
