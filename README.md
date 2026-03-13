@@ -55,7 +55,12 @@ python <file>.py
 python3 <file>.py
 ```
 
-If your entry point is in a different file or folder (for example `src/main.py`), run that file instead.
+For the standard 3x3 with 3 in a line win, the file is ttt3_3.py
+
+For the extended 4x4 with 3 in a line win, the file is ttt4_3.py
+
+For the advanced 4x4 with 4 in a line win, the file is ttt4_4.py
+
 
 ## How to play
 
