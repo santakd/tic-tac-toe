@@ -88,6 +88,10 @@ The project logs information useful for debugging and performance analysis, incl
 
 These logs can be toggled or redirected to a file for offline analysis.
 
+## ⭐ Like it? Star it!
+
+If you find this project interesting, please give it a star — it helps others discover it too.
+
 ## Contributing
 
 Contributions are welcome. Suggested workflow:
