@@ -55,12 +55,9 @@ python <file>.py
 python3 <file>.py
 ```
 
-For the standard 3x3 with 3 in a line win, the file is ttt3_3.py
-
-For the extended 4x4 with 3 in a line win, the file is ttt4_3.py
-
-For the advanced 4x4 with 4 in a line win, the file is ttt4_4.py
-
+- For the standard 3x3 with 3 in a line win, the file is ttt3_3.py
+- For the extended 4x4 with 3 in a line win, the file is ttt4_3.py
+- For the advanced 4x4 with 4 in a line win, the file is ttt4_4.py
 
 ## How to play
 
@@ -73,9 +70,7 @@ Controls may vary depending on how the Pygame UI is implemented — typically mo
 ## AI Details
 
 - Easy: Checks for any immediate winning move for itself, then checks for moves that block the opponent's immediate win, otherwise selects a random available cell. This avoids obvious blunders while remaining beatable.
-
 - Medium: Uses minimax with alpha–beta pruning but with a configurable depth limit (the previous README noted depth=4 or 5). Depth limits reduce computation and make the AI less than perfect.
-
 - Hard: Uses full minimax with alpha–beta pruning and no depth limit (searches to terminal states), which produces optimal play for smaller boards.
 
 ## Logging & Debugging
